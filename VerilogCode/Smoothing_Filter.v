@@ -16,9 +16,12 @@
 // Model version: 1.2
 // 
 // -------------------------------------------------------------
+/*
+This function takes a moving average of the data coming in
+Need to test this to see if it works
 
-`timescale 1 ns / 1 ns
-
+bit shift for division
+*/
 module Smoothing_Filter
           (clk,
            reset,
@@ -27,11 +30,11 @@ module Smoothing_Filter
            SmoothedArray);
 
 
-  input   clk;
-  input   reset;
-  input   enb;
-  input   [7:0] In_Arrary;  // uint8
-  output  [7:0] SmoothedArray;  // uint8
+  input wire clk;
+  input wire reset;
+  input wire enb;
+  input wire[7:0] In_Arrary;  // uint8
+  output reg [7:0] SmoothedArray;  // uint8
 
 
   reg [7:0] In_Arrary_1;  // uint8
@@ -40,8 +43,6 @@ module Smoothing_Filter
   reg [7:0] In_Arrary_3;  // uint8
   wire [7:0] Add1_out1;  // uint8
   wire [7:0] Add2_out1;  // uint8
-  reg [7:0] In_Arrary_4;  // uint8
-  wire [7:0] Add3_out1;  // uint8
 
 
   always @(posedge clk or posedge reset)
@@ -90,25 +91,9 @@ module Smoothing_Filter
 
 
   assign Add2_out1 = Add_out1 + Add1_out1;
+  assign Add3_out1 = Add2_out1 + In_Arrary;
 
-
-  always @(posedge clk or posedge reset)
-    begin : reduced_3_process
-      if (reset == 1'b1) begin
-        In_Arrary_4 <= 8'b00000000;
-      end
-      else begin
-        if (enb) begin
-          In_Arrary_4 <= In_Arrary_3;
-        end
-      end
-    end
-
-
-  assign Add3_out1 = Add2_out1 + In_Arrary_4;
-
-
-  assign SmoothedArray = Add3_out1;
+  SmoothedArray <= Add3_out1>>2; // dividing by 4
 
 endmodule  // Smoothing_Filter
 

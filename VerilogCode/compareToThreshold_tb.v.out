@@ -1,0 +1,68 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1539-g2693dd32b)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision - 9;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+S_000002a9d5edaa10 .scope module, "CompareToThreshold_tb" "CompareToThreshold_tb" 2 4;
+ .timescale -9 -9;
+v000002a9d5edb780_0 .net "result", 0 0, L_000002a9d5eda7d0;  1 drivers
+v000002a9d5edb820_0 .var "value", 7 0;
+S_000002a9d5f26290 .scope module, "DUT" "CompareToThreshold" 2 12, 3 30 0, S_000002a9d5edaa10;
+ .timescale -9 -9;
+    .port_info 0 /INPUT 8 "In1";
+    .port_info 1 /OUTPUT 1 "u";
+L_000002a9d5f69900 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+L_000002a9d5f266a0 .functor XNOR 1, L_000002a9d5f239a0, L_000002a9d5f69900, C4<0>, C4<0>;
+L_000002a9d5eda7d0 .functor BUFZ 1, L_000002a9d5f23d60, C4<0>, C4<0>, C4<0>;
+L_000002a9d5f698b8 .functor BUFT 1, C4<1>, C4<0>, C4<0>, C4<0>;
+v000002a9d5ed97b0_0 .net "Constant_out1", 0 0, L_000002a9d5f698b8;  1 drivers
+v000002a9d5ef3120_0 .net "In1", 7 0, v000002a9d5edb820_0;  1 drivers
+v000002a9d5ed8d70_0 .net "Switch_out1", 0 0, L_000002a9d5f23d60;  1 drivers
+L_000002a9d5f69870 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v000002a9d5eda730_0 .net "Zero_out1", 0 0, L_000002a9d5f69870;  1 drivers
+L_000002a9d5f69828 .functor BUFT 1, C4<00001010>, C4<0>, C4<0>, C4<0>;
+v000002a9d5f26420_0 .net/2u *"_ivl_0", 7 0, L_000002a9d5f69828;  1 drivers
+v000002a9d5f264c0_0 .net *"_ivl_10", 0 0, L_000002a9d5f266a0;  1 drivers
+v000002a9d5f26560_0 .net/2u *"_ivl_8", 0 0, L_000002a9d5f69900;  1 drivers
+v000002a9d5f26600_0 .net "switch_compare_1", 0 0, L_000002a9d5f239a0;  1 drivers
+v000002a9d5edb6e0_0 .net "u", 0 0, L_000002a9d5eda7d0;  alias, 1 drivers
+L_000002a9d5f239a0 .cmp/gt 8, v000002a9d5edb820_0, L_000002a9d5f69828;
+L_000002a9d5f23d60 .functor MUXZ 1, L_000002a9d5f698b8, L_000002a9d5f69870, L_000002a9d5f266a0, C4<>;
+    .scope S_000002a9d5edaa10;
+T_0 ;
+    %vpi_call 2 19 "$dumpfile", "compare_tb.vcd" {0 0 0};
+    %vpi_call 2 20 "$dumpvars", 32'sb00000000000000000000000000000000, S_000002a9d5edaa10 {0 0 0};
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 8;
+    %store/vec4 v000002a9d5edb820_0, 0, 8;
+    %delay 10, 0;
+    %pushi/vec4 4, 0, 8;
+    %store/vec4 v000002a9d5edb820_0, 0, 8;
+T_0.0 ;
+    %load/vec4 v000002a9d5edb820_0;
+    %pad/u 32;
+    %cmpi/u 13, 0, 32;
+    %jmp/0xz T_0.1, 5;
+    %delay 10, 0;
+    %load/vec4 v000002a9d5edb820_0;
+    %addi 1, 0, 8;
+    %store/vec4 v000002a9d5edb820_0, 0, 8;
+    %jmp T_0.0;
+T_0.1 ;
+    %delay 10, 0;
+    %pushi/vec4 0, 0, 8;
+    %assign/vec4 v000002a9d5edb820_0, 0;
+    %delay 10, 0;
+    %vpi_call 2 32 "$finish" {0 0 0};
+    %end;
+    .thread T_0;
+# The file index is used to find the file name in the following table.
+:file_names 4;
+    "N/A";
+    "<interactive>";
+    "compareToThreshold_tb.v";
+    "./CompareToThreshold.v";

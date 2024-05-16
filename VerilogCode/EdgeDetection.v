@@ -56,12 +56,12 @@ module EdgeDetection
   input   clk_enable;
   input   [7:0] In_Arrary;  // uint8
   output  ce_out;
-  output  [63:0] u;  // double
+  output  [7:0] u;  // double
 
 
   wire [7:0] smoothed;  // uint8
   wire [7:0] x;  // uint8
-  wire [63:0] CompareToThreshold_out1;  // ufix64
+  wire [7:0] CompareToThreshold_out1;  // ufix64 // this needs to be changed
 
 
   Smoothing_Filter u_Smoothing_Filter (.clk(clk),

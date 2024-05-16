@@ -1,0 +1,81 @@
+$date
+	Thu May 16 21:17:25 2024
+$end
+$version
+	Icarus Verilog
+$end
+$timescale
+	1ns
+$end
+$scope module CompareToThreshold_tb $end
+$var wire 1 ! result $end
+$var reg 8 " value [7:0] $end
+$scope module DUT $end
+$var wire 1 # Constant_out1 $end
+$var wire 8 $ In1 [7:0] $end
+$var wire 1 % Zero_out1 $end
+$var wire 1 ! u $end
+$var wire 1 & switch_compare_1 $end
+$var wire 1 ' Switch_out1 $end
+$upscope $end
+$upscope $end
+$enddefinitions $end
+$comment Show the parameter values. $end
+$dumpall
+$end
+#0
+$dumpvars
+x'
+x&
+0%
+bx $
+1#
+bx "
+x!
+$end
+#10
+0!
+0'
+0&
+b0 "
+b0 $
+#20
+b100 "
+b100 $
+#30
+b101 "
+b101 $
+#40
+b110 "
+b110 $
+#50
+b111 "
+b111 $
+#60
+b1000 "
+b1000 $
+#70
+b1001 "
+b1001 $
+#80
+b1010 "
+b1010 $
+#90
+1!
+1'
+1&
+b1011 "
+b1011 $
+#100
+b1100 "
+b1100 $
+#110
+b1101 "
+b1101 $
+#120
+0!
+0'
+0&
+b0 "
+b0 $
+#130

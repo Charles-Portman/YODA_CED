@@ -33,24 +33,22 @@ module CompareToThreshold
 
 
   input   [7:0] In1;  // uint8
-  output  [63:0] u;  // double
+  output   u;  // double
 
 
   wire switch_compare_1;
-  wire [63:0] Zero_out1;  // ufix64
-  wire [63:0] Constant_out1;  // ufix64
-  wire [63:0] Switch_out1;  // ufix64
+  wire  Zero_out1;  // ufix64
+  wire  Constant_out1;  // ufix64
+  wire  Switch_out1;  // ufix64
+  
+  assign switch_compare_1 = In1 > 8'b00001010;
 
 
-  assign switch_compare_1 = In1 > 8'b00000001;
+
+  assign Zero_out1 = 1'b0;
 
 
-
-  assign Zero_out1 = 64'h0000000000000000;
-
-
-  assign Constant_out1 = 64'h3ff0000000000000;
-
+  assign Constant_out1 = 1'b1;
 
   assign Switch_out1 = (switch_compare_1 == 1'b0 ? Zero_out1 :
               Constant_out1);

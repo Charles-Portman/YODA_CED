@@ -38,7 +38,7 @@ module Derivative
   input   [7:0] In1;  // uint8
   output  [7:0] u;  // uint8
 
-
+  reg [7:0] u;
   reg [7:0] Delay_out1;  // uint8
   wire [7:0] Add_out1;  // uint8
 
@@ -53,13 +53,16 @@ module Derivative
           Delay_out1 <= In1;
         end
       end
-    end
-
-
-  assign Add_out1 = In1 - Delay_out1;
-
-
-  assign u = Add_out1;
+  
+ 
+      if(In1 > Delay_out1) begin
+        assign Add_out1 = In1 - Delay_out1;
+      end
+      else begin
+        assign Add_out1 = Delay_out1 -In1;
+      end
+    assign u = Add_out1;
+  end
 
 endmodule  // Derivative
 

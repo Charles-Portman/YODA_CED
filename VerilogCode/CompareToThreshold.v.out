@@ -1,0 +1,36 @@
+#! /c/Source/iverilog-install/bin/vvp
+:ivl_version "12.0 (devel)" "(s20150603-1539-g2693dd32b)";
+:ivl_delay_selection "TYPICAL";
+:vpi_time_precision + 0;
+:vpi_module "C:\iverilog\lib\ivl\system.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_sys.vpi";
+:vpi_module "C:\iverilog\lib\ivl\vhdl_textio.vpi";
+:vpi_module "C:\iverilog\lib\ivl\v2005_math.vpi";
+:vpi_module "C:\iverilog\lib\ivl\va_math.vpi";
+S_000001c776a62ce0 .scope module, "CompareToThreshold" "CompareToThreshold" 2 30;
+ .timescale 0 0;
+    .port_info 0 /INPUT 8 "In1";
+    .port_info 1 /OUTPUT 1 "u";
+L_000001c776ae0100 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+L_000001c776a4ae00 .functor XNOR 1, L_000001c776a4e5e0, L_000001c776ae0100, C4<0>, C4<0>;
+L_000001c776a48f00 .functor BUFZ 1, L_000001c776a4e680, C4<0>, C4<0>, C4<0>;
+L_000001c776ae00b8 .functor BUFT 1, C4<1>, C4<0>, C4<0>, C4<0>;
+v000001c776a49120_0 .net "Constant_out1", 0 0, L_000001c776ae00b8;  1 drivers
+o000001c776a96fd8 .functor BUFZ 8, C4<zzzzzzzz>; HiZ drive
+v000001c776a48e60_0 .net "In1", 7 0, o000001c776a96fd8;  0 drivers
+v000001c776a4ad60_0 .net "Switch_out1", 0 0, L_000001c776a4e680;  1 drivers
+L_000001c776ae0070 .functor BUFT 1, C4<0>, C4<0>, C4<0>, C4<0>;
+v000001c776a62e70_0 .net "Zero_out1", 0 0, L_000001c776ae0070;  1 drivers
+L_000001c776ae0028 .functor BUFT 1, C4<00001010>, C4<0>, C4<0>, C4<0>;
+v000001c776a62f10_0 .net/2u *"_ivl_0", 7 0, L_000001c776ae0028;  1 drivers
+v000001c776a62fb0_0 .net *"_ivl_10", 0 0, L_000001c776a4ae00;  1 drivers
+v000001c776a63050_0 .net/2u *"_ivl_8", 0 0, L_000001c776ae0100;  1 drivers
+v000001c776a4e4a0_0 .net "switch_compare_1", 0 0, L_000001c776a4e5e0;  1 drivers
+v000001c776a4e540_0 .net "u", 0 0, L_000001c776a48f00;  1 drivers
+L_000001c776a4e5e0 .cmp/gt 8, o000001c776a96fd8, L_000001c776ae0028;
+L_000001c776a4e680 .functor MUXZ 1, L_000001c776ae00b8, L_000001c776ae0070, L_000001c776a4ae00, C4<>;
+# The file index is used to find the file name in the following table.
+:file_names 3;
+    "N/A";
+    "<interactive>";
+    "CompareToThreshold.v";
