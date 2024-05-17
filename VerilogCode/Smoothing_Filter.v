@@ -33,67 +33,37 @@ module Smoothing_Filter
   input wire clk;
   input wire reset;
   input wire enb;
-  input wire[7:0] In_Arrary;  // uint8
-  output reg [7:0] SmoothedArray;  // uint8
+  input wire[7:0] In_Arrary;  // current value
+  output reg [7:0] SmoothedArray;  // outputvalue
 
-
-  reg [7:0] In_Arrary_1;  // uint8
-  wire [7:0] Add_out1;  // uint8
-  reg [7:0] In_Arrary_2;  // uint8
-  reg [7:0] In_Arrary_3;  // uint8
-  wire [7:0] Add1_out1;  // uint8
-  wire [7:0] Add2_out1;  // uint8
+  reg [7:0] In_Arrary1; // 1 delay
+  reg [7:0] In_Arrary2; // 2 delay
+  reg [7:0] In_Arrary3; // 3 delay
+  reg [7:0] In_Arrary4; // current val
 
 
   always @(posedge clk or posedge reset)
     begin : reduced_process
-      if (reset == 1'b1) begin
-        In_Arrary_1 <= 8'b00000000;
+      if (reset == 1'b1) begin //reset all the values to 1
+        In_Arrary1 <= 8'b00000000;
+        In_Arrary2 <= 8'b00000000;
+        In_Arrary3 <= 8'b00000000;
+        In_Arrary4 <= 8'b00000000;
       end
       else begin
         if (enb) begin
-          In_Arrary_1 <= In_Arrary;
+          In_Arrary4 <= In_Arrary3; // current value -3
+          In_Arrary3 <= In_Arrary2; //current value -2
+          In_Arrary2 <= In_Arrary1; //current value -1
+          In_Arrary1 <= In_Arrary; // current value
+          
         end
       end
+        // average over 4 values
+        SmoothedArray <= (In_Arrary4 + In_Arrary3 +In_Arrary2 + In_Arrary1) >> 2 ; 
     end
-
-
-  assign Add_out1 = In_Arrary + In_Arrary_1;
-
-
-  always @(posedge clk or posedge reset)
-    begin : reduced_1_process
-      if (reset == 1'b1) begin
-        In_Arrary_2 <= 8'b00000000;
-      end
-      else begin
-        if (enb) begin
-          In_Arrary_2 <= In_Arrary_1;
-        end
-      end
-    end
-
-
-  always @(posedge clk or posedge reset)
-    begin : reduced_2_process
-      if (reset == 1'b1) begin
-        In_Arrary_3 <= 8'b00000000;
-      end
-      else begin
-        if (enb) begin
-          In_Arrary_3 <= In_Arrary_2;
-        end
-      end
-    end
-
-
-  assign Add1_out1 = In_Arrary_2 + In_Arrary_3;
-
-
-  assign Add2_out1 = Add_out1 + Add1_out1;
-  assign Add3_out1 = Add2_out1 + In_Arrary;
-
-  SmoothedArray <= Add3_out1>>2; // dividing by 4
+    
+   
+    //assign SmoothedArray <= (In_Arrary4 >> 2) + (In_Arrary3)
 
 endmodule  // Smoothing_Filter
-
