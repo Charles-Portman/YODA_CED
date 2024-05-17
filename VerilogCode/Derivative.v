@@ -28,19 +28,19 @@ module Derivative
           (clk,
            reset,
            enb,
-           In1,
-           u);
+           In,
+           d_in);
 
 
   input   clk;
   input   reset;
   input   enb;
-  input   [7:0] In1;  // uint8
-  output  [7:0] u;  // uint8
+  input   [7:0] In;  // input value
+  output  [7:0] d_in;  // discrete derivative value
 
-  reg [7:0] u;
+  reg [7:0] d_in;
   reg [7:0] Delay_out1;  // uint8
-  wire [7:0] Add_out1;  // uint8
+  reg [7:0] Add_out1;  // uint8
 
 
   always @(posedge clk or posedge reset)
@@ -50,18 +50,18 @@ module Derivative
       end
       else begin
         if (enb) begin
-          Delay_out1 <= In1;
+          Delay_out1 <= In;
         end
       end
   
  
-      if(In1 > Delay_out1) begin
-        assign Add_out1 = In1 - Delay_out1;
+      if(In > Delay_out1) begin
+         Add_out1 = In - Delay_out1;
       end
       else begin
-        assign Add_out1 = Delay_out1 -In1;
+        Add_out1 = Delay_out1 -In;
       end
-    assign u = Add_out1;
+    d_in <= Add_out1;
   end
 
 endmodule  // Derivative
