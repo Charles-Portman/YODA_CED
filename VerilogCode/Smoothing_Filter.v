@@ -55,12 +55,12 @@ module Smoothing_Filter
           In_Arrary4 <= In_Arrary3; // current value -3
           In_Arrary3 <= In_Arrary2; //current value -2
           In_Arrary2 <= In_Arrary1; //current value -1
-          In_Arrary1 <= In_Arrary; // current value
+          In_Arrary1 <= In_Arrary >> 2'b10; // current value divided by 4
           
         end
       end
         // average over 4 values
-        SmoothedArray <= (In_Arrary4 + In_Arrary3 +In_Arrary2 + In_Arrary1) >> 2 ; 
+        SmoothedArray <= In_Arrary4 + In_Arrary3 +In_Arrary2 + In_Arrary1  ; 
     end
     
    
