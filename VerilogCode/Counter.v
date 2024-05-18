@@ -34,6 +34,7 @@ end
 
 always@(posedge resetIn) begin
     cout = 0; // reset the count
+    resetOut <= 1;
 end
 always@(posedge clk) begin
     case(mode) 
