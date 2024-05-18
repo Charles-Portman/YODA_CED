@@ -1,7 +1,6 @@
 /*
 Module: PostDetectionFilter.v
 Objective: Filter the noisey edge detectd image after going to buffer
-
 */
 
 module PostDetectionFilter
@@ -10,7 +9,6 @@ module PostDetectionFilter
            enb,
            In_Array,
            Out_Array);
-
 
   input wire clk;
   input wire reset;

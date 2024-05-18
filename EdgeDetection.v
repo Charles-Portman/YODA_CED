@@ -48,7 +48,6 @@ module EdgeDetection
                   .cout(cout)
   );
 
-
   // first goes into the smoothing filter
   Smoothing_Filter u_Smoothing_Filter (.clk(clk),
                                        .reset(resetOut),
