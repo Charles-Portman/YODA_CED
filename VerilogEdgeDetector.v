@@ -66,7 +66,7 @@ EdgeDetectionAllDirections EdgeDetector3000
       reset = 1;
       resetBuff <=1;
       enb <=0;
-      
+
     //writing file info
       #2
       //sending all the data in

@@ -32,6 +32,7 @@ output wire [7:0] OutArray;
 //internal Registers
 wire [7:0] leftRightOut;
 wire [7:0] upDownOut;
+wire [7:0] leftRightUpDown;
 
 //connecting the left right edge detector
 EdgeDetection LeftRight(
@@ -58,7 +59,16 @@ EdgeDetection upDown(
 );
 
 
-assign OutArray = (upDownOut|leftRightOut);
+assign leftRightUpDown = (upDownOut|leftRightOut);
+
+PostDetectionFilter filtering(
+    .clk(clk),
+    .reset(reset),
+    .enb(enb),
+    .In_Array(leftRightUpDown), // uint 8
+    .Out_Array(OutArray)
+);
+
 
 //if need to add a filter can add it in here
 
