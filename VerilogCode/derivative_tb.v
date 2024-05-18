@@ -15,8 +15,8 @@ module derivative_tb();
            .clk(clk),
            .reset(reset),
            .enb(enb),
-           .In1(values),
-           .u(result)
+           .In(values),
+           .d_in(result)
   );
 
   // Generate clock (optional for this example)
@@ -36,7 +36,7 @@ module derivative_tb();
           #1;
         end 
     #10
-    for (values = 0; values<5; values = values +2) // derivate of 1
+    for (values = 0; values<5; values = values +2) // derivate of 2
         begin
           #2;
         end 

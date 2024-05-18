@@ -29,11 +29,22 @@ the threshold or not
 
 module CompareToThreshold
           (In1,
-           u);
+            enb,
+            reset,
+           u,
+           clk
+           );
 
 
+  input wire clk;
+  input wire reset;
+  input wire enb;
   input   [7:0] In1;  // uint8
-  output   u;  // double
+  output  reg u;  // double
+
+
+  // internal registers need a counter to get rid of the intial values that will develop edges on start
+  reg [7:0] intCount;
 
 
   wire switch_compare_1;
@@ -41,7 +52,7 @@ module CompareToThreshold
   wire  Constant_out1;  // ufix64
   wire  Switch_out1;  // ufix64
   
-  assign switch_compare_1 = In1 > 8'b00001010;
+  assign switch_compare_1 = In1 > 8'b00001010; // need to see if we can try make a threshold that is dynamic
 
 
 
@@ -53,8 +64,27 @@ module CompareToThreshold
   assign Switch_out1 = (switch_compare_1 == 1'b0 ? Zero_out1 :
               Constant_out1);
 
+  initial begin 
+    u <=0;
+  end
 
-  assign u = Switch_out1;
+  always@(posedge(reset)) begin
+    intCount <=0;
+  end
 
+  always@(posedge clk) begin
+    if((enb)&&(intCount > 4)) begin
+      u <=  Switch_out1;
+    end
+    else begin
+      u <= 0;
+    end
+    intCount <= intCount +1;
+  end
+
+
+/*
+  assign u <= Switch_out1;
+*/
 endmodule  // CompareToThreshold
 

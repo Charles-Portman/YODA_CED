@@ -37,27 +37,32 @@ always@(posedge resetIn) begin
     resetOut <= 1;
 end
 always@(posedge clk) begin
-    case(mode) 
-        LR: begin // reading from left to right is ez 
-            cout <=cout+1;
-            if((cout%150 == 0)&&(cout > 0)) begin
-                resetOut <=1; // we have reached the end of the line time to reset the edge detector
+    if (enb) begin
+        case(mode) 
+            LR: begin // reading from left to right is ez 
+                cout <=cout+1;
+                if((cout%150 == 0)&&(cout > 0)) begin
+                    resetOut <=1; // we have reached the end of the line time to reset the edge detector
+                end
+                else begin
+                    resetOut <=0; // we are still in the same line keep going
+                end
             end
-            else begin
-                resetOut <=0; // we are still in the same line keep going
+            UD: begin //counting down the array
+                if(cout < 22350) begin
+                    cout <= cout +150;
+                    resetOut<=0;
+                end
+                else begin //end condition
+                    cout <= cout - 22349;
+                    resetOut <=1;
+                end
             end
-        end
-        UD: begin //counting down the array
-            if(cout < 22350) begin
-                cout <= cout +150;
-                resetOut<=0;
-            end
-            else begin //end condition
-                cout <= cout - 22349;
-                resetOut <=1;
-            end
-        end
-    endcase
+        endcase
+    end
+    else begin
+        cout <=0;
+    end
 end
 
 endmodule

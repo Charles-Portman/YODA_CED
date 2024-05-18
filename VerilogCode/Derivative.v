@@ -19,7 +19,7 @@
 
 
 /*
-This takes the discrete time derivative of the data incoming, this should work
+Working fine
 
 
 */
@@ -44,24 +44,29 @@ module Derivative
 
 
   always @(posedge clk or posedge reset)
-    begin : Delay_process
-      if (reset == 1'b1) begin
-        Delay_out1 <= 8'b00000000;
-      end
-      else begin
-        if (enb) begin
-          Delay_out1 <= In;
+    if(enb) begin
+      begin : Delay_process
+        if (reset == 1'b1) begin
+          Delay_out1 <= 8'b00000000;
         end
-      end
+        else begin
+          if (enb) begin
+            Delay_out1 <= In;
+          end
+        end
+    
   
- 
-      if(In > Delay_out1) begin
-         Add_out1 = In - Delay_out1;
-      end
-      else begin
-        Add_out1 = Delay_out1 -In;
-      end
-    d_in <= Add_out1;
+        if(In > Delay_out1) begin
+          Add_out1 = In - Delay_out1;
+        end
+        else begin
+          Add_out1 = Delay_out1 -In;
+        end
+      d_in <= Add_out1;
+    end
+  end
+  else begin
+    d_in <= 0;
   end
 
 endmodule  // Derivative
