@@ -1,3 +1,10 @@
+/*
+Author: Thomas Greenwood
+
+This test the derivative module
+*/
+
+
 `timescale 1ns/1ns
 `include "Derivative.v"
 

@@ -1,8 +1,11 @@
-// This is what is actually simulating the FPGA
+/*
+Author: Thomas Greenwood
+
+This is the actual Testbench which is simulating the FPGA and creates files for matlab to post proccess into images
+
+*/
 
 `include "EdgeDetectionAllDirections.v"
-`include "PostDetectionFilter.v"
-
 `timescale 1ns/1ns
 module VerilogEdgeDetector(
    // Outputs
@@ -10,7 +13,7 @@ module VerilogEdgeDetector(
    );
 
 
-   //This is for the reading data stuff
+   //This is for the reading data from files 
    output clk;
    output [7:0] data;
    reg    clk;
@@ -20,22 +23,21 @@ module VerilogEdgeDetector(
    integer fout; // writing file
    integer   code, dummy;
 
-   integer backupcounter;
    reg [8*10:1] str;    
    //testing with the smoothing filter
-    reg lRBufferMode;
-    reg uDBufferMode;
-    reg[7:0] uDArray; 
-    reg [7:0] lRArray;
+    reg lRBufferMode; // to set the left to right module
+    reg uDBufferMode; // to set the up and down module
+    reg[7:0] uDArray; // the up and down data array that will be inputted to the module (via a file)
+    reg [7:0] lRArray; // the left to right array that will be inputted to the module (via a file)
     // to put the data in
     wire[7:0] outputVal; // to see the output data
     reg reset; // to reset the data
-    reg resetBuff;
+    reg resetBuff; // reset the buffer
     reg enb; // to enable the module
     // need to test with a proper counter but for now will use this
     //reg [7:0] cnt;
     output wire complete;
-
+// connecting the edgedectoralldirections module up and naming it EdgeDetector3000 because it sounds cooler
 EdgeDetectionAllDirections EdgeDetector3000
     (   
     .clk(clk),
@@ -54,12 +56,14 @@ EdgeDetectionAllDirections EdgeDetector3000
 
    initial begin
     // for gtkwave
-    $dumpfile("VerilogEdgeDetector.vcd");
+    $dumpfile("VerilogEdgeDetector.vcd"); // for gtkwave
     $dumpvars(0,VerilogEdgeDetector);
     
     //reading all the data in
-      fdUD = $fopen("UpdownData.txt","r"); 
-      fdLR = $fopen("LeftWriteData.txt","r");
+      fdUD = $fopen("UpdownData.txt","r"); //input file for up and down data
+      fdLR = $fopen("LeftWriteData.txt","r"); //input file for Left to right data
+      
+      // presetting all the values to zero
       lRArray <=0;
       uDArray <=0;
       clk = 0;
@@ -68,8 +72,6 @@ EdgeDetectionAllDirections EdgeDetector3000
       reset = 1;
       resetBuff <=1;
       enb <=0;
-
-    //writing file info
       #2
       //sending all the data in
       reset = 0;
@@ -78,36 +80,36 @@ EdgeDetectionAllDirections EdgeDetector3000
       lRBufferMode <=0;
       fout = $fopen("CannyFile.txt","w");
       enb <=1;
-      #4
-      while (code) begin
+      #2
+      while (code) begin // while there is still data in files, read it
+         //left right data
          code = $fgets(str, fdUD);
          dummy = $sscanf(str, "%d", data);
          lRArray <= data; //streaming the data to the input
-         
+         //up down data
          code = $fgets(str, fdLR);
          dummy = $sscanf(str, "%d", data);
          uDArray <= data;
          #2;
       end
-      enb <=0;
+      enb <=0; // disable for a clock cycle
       $fclose(fdLR);
       $fclose(fdUD);
       #2
       //sending the data out the buff
-      uDBufferMode <=1;
-      lRBufferMode <=1;
-      enb <=1;
+      uDBufferMode <=1; // turn buffer to sending mode
+      lRBufferMode <=1; // turn buffer to sending mode
+      enb <=1; // enable again
       #2;
-      while(complete == 0) begin
+      while(complete == 0) begin // repeat until all the data is sent out
         $fdisplay(fout,"%d",  outputVal); // will need to change this at some point
-        //$display("made it here ,%d",backupcounter);
         #2;
       end
       enb <=0;
 
-      #100;
+      #100; // delay for vibes
       $fclose(fout);  
       $finish;
-   end // initial begin
-   always #1 clk = ~clk;
+   end 
+   always #1 clk = ~clk; // toggle clock
 endmodule 

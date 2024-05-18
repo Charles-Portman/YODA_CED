@@ -1,4 +1,6 @@
 /*
+Author: Thomas Greenwood
+
 This used to keep track of the index that is being counted
 Therefore it needs 4 modes of counting
 when going accross it needs to count up linearly 1,2,3,4...150^2
@@ -25,16 +27,16 @@ module Counter(
 localparam LR=2'b00; //reading data left to right
 localparam UD =2'b01; //reading data up to down
 localparam DL =2'b10; //reading diagonally
-localparam DR = 2'b11; // reading vertically
+localparam DR = 2'b11; // reading vertically didn't need the diagonals in the end as it made the results worse
 
 initial begin
-    cout <=0;
+    cout <=0; // start at zero
 end
 
 
 always@(posedge resetIn) begin
     cout = 0; // reset the count
-    resetOut <= 1;
+    resetOut <= 1; //
 end
 always@(posedge clk) begin
     if (enb) begin
@@ -50,12 +52,12 @@ always@(posedge clk) begin
             end
             UD: begin //counting down the array
                 if(cout < 22350) begin
-                    cout <= cout +150;
+                    cout <= cout +150; // counting down the columns of the matrix is equivalent to counting up by 150 in 1D array
                     resetOut<=0;
                 end
                 else begin //end condition
-                    cout <= cout - 22349;
-                    resetOut <=1;
+                    cout <= cout - 22349; // clever way to go from the end of the column to the next column
+                    resetOut <=1; // reset the edge detector as it is starting a new row
                 end
             end
         endcase

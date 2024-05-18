@@ -1,3 +1,9 @@
+/*
+Author: Thomas Greenwood
+Test bench for the smoothing filter
+
+*/
+
 `include "Smoothing_Filter.v"
 
 module SmoothingFilter_tb();
@@ -18,8 +24,8 @@ Smoothing_Filter DUT(
            );
 initial begin
     clk <= 0;
-    $dumpfile("Smoothingfilter.vcd");
-    $dumpvars(0, SmoothingFilter_tb);
+    $dumpfile("Smoothingfilter.vcd"); // for gtkwave for debugging
+    $dumpvars(0, SmoothingFilter_tb); // for ^
     reset <= 1;// reset all the values
     #2;
     reset <=0;
