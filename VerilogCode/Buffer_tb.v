@@ -33,6 +33,7 @@ initial begin
     inArray <=1;
     cout <=0;
     resetBuff <=1;
+    enb <=1;
     #2
     for(cout = 0; cout < 22499; cout = cout +1) begin        
         #2; // store all the data for enought values

@@ -30,8 +30,8 @@ initial begin
     #2;
     reset <=0;
     enb <= 1;
-    inputArray <=0;
-    for (inputArray = 0; inputArray<5; inputArray = inputArray +1) // counts up to five
+    inputArray <=4;
+    for (inputArray = 4; inputArray<10; inputArray = inputArray +1) // counts up to five
         begin
           #2;
         end 

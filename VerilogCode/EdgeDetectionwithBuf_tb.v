@@ -76,6 +76,7 @@ module TestingEdgeDectionWithBuff_tb (
          inputArray <= data; //streaming the data to the input
          #2;
       end
+      inputArray <=0;
       enb <=0;
       $fclose(fd);
       #2

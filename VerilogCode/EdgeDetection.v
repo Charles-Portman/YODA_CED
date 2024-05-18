@@ -73,6 +73,10 @@ module EdgeDetection
                                             .In1(diff),  // uint8
                                            .u(CompareToThreshold_out1)  // double
                                            );
+
+  //implement filter here
+  
+
   //assigns the of the final module to compare to threshold
   Buffer Buffer(.clk(clk),
                 .enb(enb),
