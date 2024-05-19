@@ -24,17 +24,27 @@ module Counter(
 //these are all the different counting states
 localparam LR=2'b00; //reading data left to right
 localparam UD =2'b01; //reading data up to down
-localparam DL =2'b10; //reading diagonally
-localparam DR = 2'b11; // reading vertically
+localparam TTL =2'b10; //reading diagonally
+localparam TTR = 2'b11; // reading vertically
+
+reg [7:0] row;//row counter
+reg [7:0] col;//column counter
+reg [7:0] dcount; // diagonal counter
 
 initial begin
     cout <=0;
+    dcount <=1;//diagonal counter for TTL and TTR directions
+    row <= 0;//row counter for ttl and ttr
+    col <= 0;//column counter for ttl and ttr
 end
 
 
 always@(posedge resetIn) begin
     cout = 0; // reset the count
     resetOut <= 1;
+    dcount <=1;//reset diagonal counter
+    row <= 0;
+    col <= 0;
 end
 always@(posedge clk) begin
     if (enb) begin
@@ -56,6 +66,47 @@ always@(posedge clk) begin
                 else begin //end condition
                     cout <= cout - 22349;
                     resetOut <=1;
+                end
+            end
+            TTL: begin//this code is a bit made up from the matlab preprocessing of ttl and ttr
+                        //part of me wonders if this even makes sense
+                if (dcount <= 150) begin //precess to center line
+                    row <= dcount - 1; // row is zero indexed whereas dcount is from 1
+                    col <= 0;
+                    dcount <= dcount + 1;
+                end else 
+                if (dcount <= 300) begin //processes after centre
+                    row <= 149;
+                    col <= dcount - 151;
+                    dcount <= dcount + 1;
+                end
+                cout <= row * 150 + col;
+                if (row > 0 && col < 149) begin
+                    row <= row - 1;
+                    col <= col + 1;
+                    resetOut <= 0;
+                end else begin
+                    resetOut <= 1;
+                end
+            end
+            TTR: begin
+                    if (dcount <= 150) begin //precess to center line
+                    row <= dcount - 1;
+                    col <= 149;
+                    dcount <= dcount + 1;
+                end else if (dcount <= 300) begin//processes after centre
+                    row <= 149;
+                    col <= 299 - dcount;
+                    dcount <= dcount + 1;
+                end
+                cout <= row * 150 + col;
+                if (row > 0 && col > 0) begin
+                    row <= row - 1;
+                    col <= col - 1;
+                    resetOut <= 0;
+                end else begin
+                    resetOut <= 1;
+                end
                 end
             end
         endcase
