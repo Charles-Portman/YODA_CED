@@ -81,26 +81,24 @@ module EdgeDetection
                 .complete(complete)
   );     
   
-  //reg oldestEdge;
-  //reg olderEdge;
+  /* 
+  Doing some filtering here
+  This filters out some noice by only letting the output go high if the two consecutive values are high
+  */
   reg oldEdge; 
   reg CurrentVal;
   
   always@(posedge reset)begin
     oldEdge<=0;
-    //olderEdge<= 0;
-    //oldestEdge <=0;
     CurrentVal <= 0;
   end
   
   always@(posedge clk) begin
-     //oldestEdge <= olderEdge;
-     //olderEdge <=oldEdge;
      oldEdge <= CurrentVal;
      if((outvalues== 1)||(outvalues ==0)) begin
         CurrentVal <= outvalues;
      end
-     Edges <= (CurrentVal&oldEdge); //&olderEdge&oldestEdge);
+     Edges <= (CurrentVal&oldEdge);
   end
 
   
