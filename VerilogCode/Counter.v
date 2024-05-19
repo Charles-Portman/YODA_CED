@@ -107,11 +107,13 @@ always@(posedge clk) begin
                     row <= row - 1;
                     col <= col - 1;
                     resetOut <= 0;
-                end else begin
+                end 
+                else begin
                     resetOut <= 1;
                 end
-                end
+                
             end
+            /*
             TTL: begin//this code is a bit made up from the matlab preprocessing of ttl and ttr
                         //part of me wonders if this even makes sense
                 if (dcount <= 150) begin //precess to center line
@@ -132,27 +134,30 @@ always@(posedge clk) begin
                 end else begin
                     resetOut <= 1;
                 end
-            end
+            end*/
+            /*
             TTR: begin
                     if (dcount <= 150) begin //precess to center line
-                    row <= dcount - 1;
-                    col <= 149;
-                    dcount <= dcount + 1;
-                end else if (dcount <= 300) begin//processes after centre
-                    row <= 149;
-                    col <= 299 - dcount;
-                    dcount <= dcount + 1;
+                        row <= dcount - 1;
+                        col <= 149;
+                        dcount <= dcount + 1;
+                    end 
+                    else if (dcount <= 300) begin//processes after centre
+                        row <= 149;
+                        col <= 299 - dcount;
+                        dcount <= dcount + 1;
+                    end
+                    cout <= row * 150 + col;
+                    if (row > 0 && col > 0) begin
+                        row <= row - 1;
+                        col <= col - 1;
+                        resetOut <= 0;
+                    end 
+                    else begin
+                        resetOut <= 1;
+                    end
                 end
-                cout <= row * 150 + col;
-                if (row > 0 && col > 0) begin
-                    row <= row - 1;
-                    col <= col - 1;
-                    resetOut <= 0;
-                end else begin
-                    resetOut <= 1;
-                end
-                end
-            end
+            end*/
         endcase
     end
     else begin

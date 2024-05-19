@@ -30,7 +30,7 @@ module VerilogEdgeDetector(
     reg[7:0] uDArray; // the up and down data array that will be inputted to the module (via a file)
     reg [7:0] lRArray; // the left to right array that will be inputted to the module (via a file)
     // to put the data in
-    wire[7:0] outputVal; // to see the output data
+    wire outputVal; // to see the output data
     reg reset; // to reset the data
     reg resetBuff; // reset the buffer
     reg enb; // to enable the module
@@ -61,7 +61,7 @@ EdgeDetectionAllDirections EdgeDetector3000
     
     //reading all the data in
       fdUD = $fopen("UpdownData.txt","r"); //input file for up and down data
-      fdLR = $fopen("LeftWriteData.txt","r"); //input file for Left to right data
+      fdLR = $fopen("LeftRightData.txt","r"); //input file for Left to right data
       
       // presetting all the values to zero
       lRArray <=0;
@@ -78,7 +78,7 @@ EdgeDetectionAllDirections EdgeDetector3000
       resetBuff <=0;
       uDBufferMode <=0;
       lRBufferMode <=0;
-      fout = $fopen("CannyFile.txt","w");
+      fout = $fopen("CannyFile2.txt","w");
       enb <=1;
       #2
       while (code) begin // while there is still data in files, read it

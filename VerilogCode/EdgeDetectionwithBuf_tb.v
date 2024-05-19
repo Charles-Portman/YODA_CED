@@ -24,7 +24,7 @@ module TestingEdgeDectionWithBuff_tb (
    //testing with the smoothing filter
     reg modeBuffer;
     reg[7:0] inputArray; // to put the data in
-    wire[7:0] outputVal; // to see the output data
+    wire outputVal; // to see the output data
     reg reset; // to reset the data
     reg resetBuff;
     reg enb; // to enable the module
@@ -35,7 +35,7 @@ module TestingEdgeDectionWithBuff_tb (
     EdgeDetection DUT
     (
         .clk(clk),
-        .modeCounter(3'b001), // mode needs to correspond to the data coming in or it will transpose the image
+        .modeCounter(3'b000), // mode needs to correspond to the data coming in or it will transpose the image
         .modeBuffer(modeBuffer),
         .reset(reset),
         .resetBuff(resetBuff), // check this
@@ -52,8 +52,8 @@ module TestingEdgeDectionWithBuff_tb (
     $dumpvars(0,TestingEdgeDectionWithBuff_tb);
     
     //reading all the data in
-      //fd = $fopen("UpdownData.txt","r"); 
-      fd = $fopen("LeftWriteData.txt","r");
+      fd = $fopen("UpdownData.txt","r"); 
+      //fd = $fopen("ToTopLeftData.txt","r");
       inputArray <=0;
       clk = 0;
       data = 0;
@@ -67,7 +67,9 @@ module TestingEdgeDectionWithBuff_tb (
       reset = 0;
       resetBuff <=0;
       modeBuffer <= 0;
-      fout = $fopen("EdgeDetectionOneDirectionWithBuff.txt","w"); // writing file for matlab to reconstruct the image
+      //fout = $fopen("Diagonal1.txt","w"); // writing file for matlab to reconstruct the image
+      fout = $fopen("EdgeDetectionOneDirectionWithBuff.txt","w");
+      
       enb <=1;
       #2
       while (code) begin

@@ -34,8 +34,6 @@ module Derivative
             Delay_out1 <= In; // time delay 1
           end
         end
-    
-  
         if(In > Delay_out1) begin // absoulate derivative
           Add_out1 = In - Delay_out1; 
         end

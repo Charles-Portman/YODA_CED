@@ -1,8 +1,5 @@
 /*
-Author: Thomas Greenwood
-
-This connects the counter, smoothing, derivative, comparetothreshold and buffer module
-Making this a full edge detection unit for one direction 
+This module connects all the other modules together
 
 */
 
@@ -31,7 +28,7 @@ module EdgeDetection
   input   reset; // input reset from testbench
   input   enb;
   input   [7:0] In_Arrary;  // in array from file in test bench
-  output  [7:0] Edges;  // output from the compare to threshold
+  output reg Edges;  // output from the compare to threshold was a 7 bit number
   input resetBuff;
   output wire complete; //check this
 
@@ -73,10 +70,6 @@ module EdgeDetection
                                             .In1(diff),  // uint8
                                            .u(CompareToThreshold_out1)  // double
                                            );
-
-  //implement filter here
-  
-
   //assigns the of the final module to compare to threshold
   Buffer Buffer(.clk(clk),
                 .enb(enb),
@@ -88,8 +81,31 @@ module EdgeDetection
                 .complete(complete)
   );     
   
+  //reg oldestEdge;
+  //reg olderEdge;
+  reg oldEdge; 
+  reg CurrentVal;
   
-  assign Edges = outvalues;
+  always@(posedge reset)begin
+    oldEdge<=0;
+    //olderEdge<= 0;
+    //oldestEdge <=0;
+    CurrentVal <= 0;
+  end
+  
+  always@(posedge clk) begin
+     //oldestEdge <= olderEdge;
+     //olderEdge <=oldEdge;
+     oldEdge <= CurrentVal;
+     if((outvalues== 1)||(outvalues ==0)) begin
+        CurrentVal <= outvalues;
+     end
+     Edges <= (CurrentVal&oldEdge); //&olderEdge&oldestEdge);
+  end
+
+  
+
+
 
 endmodule  // EdgeDetection
 

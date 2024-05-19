@@ -30,13 +30,13 @@ input wire reset;
 input wire resetBuff;
 
 output wire complete;
-output wire [7:0] OutArray;
+output wire OutArray;
 
 
 
 //internal Registers
-wire [7:0] leftRightOut; // data from the left to right array
-wire [7:0] upDownOut; // data from the up to down array
+wire leftRightOut; // data from the left to right array
+wire upDownOut; // data from the up to down array
 //wire [7:0] OutArray_Prefiltered; // only needed if you include the filter
 
 //connecting the left right edge detector

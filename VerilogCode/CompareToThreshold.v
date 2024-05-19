@@ -32,7 +32,7 @@ module CompareToThreshold
   wire  Constant_out1;  // ufix64
   wire  Switch_out1;  // ufix64
   
-  assign switch_compare_1 = In1 > 20; // 20 is best so far this is the original threshold 8'b00001010; // need to see if we can try make a threshold that is dynamic
+  assign switch_compare_1 = In1 > 18; // 20 is best so far this is the original threshold 8'b00001010; // need to see if we can try make a threshold that is dynamic
 
   assign Zero_out1 = 1'b0;
 
