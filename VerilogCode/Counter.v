@@ -1,4 +1,6 @@
 /*
+Author: Thomas Greenwood
+
 This used to keep track of the index that is being counted
 Therefore it needs 4 modes of counting
 when going accross it needs to count up linearly 1,2,3,4...150^2
@@ -45,6 +47,7 @@ always@(posedge resetIn) begin
     dcount <=1;//reset diagonal counter
     row <= 0;
     col <= 0;
+    resetOut <= 1; //
 end
 always@(posedge clk) begin
     if (enb) begin
@@ -60,12 +63,53 @@ always@(posedge clk) begin
             end
             UD: begin //counting down the array
                 if(cout < 22350) begin
-                    cout <= cout +150;
+                    cout <= cout +150; // counting down the columns of the matrix is equivalent to counting up by 150 in 1D array
                     resetOut<=0;
                 end
                 else begin //end condition
-                    cout <= cout - 22349;
-                    resetOut <=1;
+                    cout <= cout - 22349; // clever way to go from the end of the column to the next column
+                    resetOut <=1; // reset the edge detector as it is starting a new row
+                end
+            end
+            TTL: begin//this code is a bit made up from the matlab preprocessing of ttl and ttr
+                        //part of me wonders if this even makes sense
+                if (dcount <= 150) begin //precess to center line
+                    row <= dcount - 1; // row is zero indexed whereas dcount is from 1
+                    col <= 0;
+                    dcount <= dcount + 1;
+                end else 
+                if (dcount <= 300) begin //processes after centre
+                    row <= 149;
+                    col <= dcount - 151;
+                    dcount <= dcount + 1;
+                end
+                cout <= row * 150 + col;
+                if (row > 0 && col < 149) begin
+                    row <= row - 1;
+                    col <= col + 1;
+                    resetOut <= 0;
+                end else begin
+                    resetOut <= 1;
+                end
+            end
+            TTR: begin
+                    if (dcount <= 150) begin //precess to center line
+                    row <= dcount - 1;
+                    col <= 149;
+                    dcount <= dcount + 1;
+                end else if (dcount <= 300) begin//processes after centre
+                    row <= 149;
+                    col <= 299 - dcount;
+                    dcount <= dcount + 1;
+                end
+                cout <= row * 150 + col;
+                if (row > 0 && col > 0) begin
+                    row <= row - 1;
+                    col <= col - 1;
+                    resetOut <= 0;
+                end else begin
+                    resetOut <= 1;
+                end
                 end
             end
             TTL: begin//this code is a bit made up from the matlab preprocessing of ttl and ttr

@@ -1,5 +1,8 @@
 /*
-This module connects all the other modules together
+Author: Thomas Greenwood
+
+This connects the counter, smoothing, derivative, comparetothreshold and buffer module
+Making this a full edge detection unit for one direction 
 
 */
 
@@ -48,6 +51,7 @@ module EdgeDetection
                   .cout(cout)
   );
 
+
   // first goes into the smoothing filter
   Smoothing_Filter u_Smoothing_Filter (.clk(clk),
                                        .reset(resetOut),
@@ -69,6 +73,10 @@ module EdgeDetection
                                             .In1(diff),  // uint8
                                            .u(CompareToThreshold_out1)  // double
                                            );
+
+  //implement filter here
+  
+
   //assigns the of the final module to compare to threshold
   Buffer Buffer(.clk(clk),
                 .enb(enb),

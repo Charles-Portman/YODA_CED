@@ -1,3 +1,10 @@
+/*
+Author: Thomas Greenwood
+
+This test the derivative module
+*/
+
+
 `timescale 1ns/1ns
 `include "Derivative.v"
 
@@ -29,14 +36,15 @@ module derivative_tb();
     reset <=0;
     enb <= 1;
     values = 0;
-    #1
+    #2
   ; // Wait again
       for (values = 0; values<5; values = values +1) // derivate of 1
         begin
-          #1;
+          #2;
         end 
     #10
-    for (values = 0; values<5; values = values +2) // derivate of 2
+
+    for (values = 0; values<20; values = values +4) // derivate of 2
         begin
           #2;
         end 
@@ -47,7 +55,7 @@ module derivative_tb();
   end
 
   always begin
-  #2 clk = ~clk; // Toggle clock every 5 ticks
+  #1 clk = ~clk; // Toggle clock every 5 ticks
   end
 
 endmodule

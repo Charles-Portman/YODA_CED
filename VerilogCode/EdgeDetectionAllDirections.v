@@ -1,5 +1,8 @@
 /*
-This module will implement Edge detection for all the directions 
+Author: Thomas Greenwood
+
+This module takes intialises the creates the whole edge detection systems,
+connecting an edge detection for all directions
 */
 
 `include "EdgeDetection.v"
@@ -29,10 +32,12 @@ input wire resetBuff;
 output wire complete;
 output wire [7:0] OutArray;
 
+
+
 //internal Registers
-wire [7:0] leftRightOut;
-wire [7:0] upDownOut;
-wire [7:0] leftRightUpDown;
+wire [7:0] leftRightOut; // data from the left to right array
+wire [7:0] upDownOut; // data from the up to down array
+//wire [7:0] OutArray_Prefiltered; // only needed if you include the filter
 
 //connecting the left right edge detector
 EdgeDetection LeftRight(
@@ -46,7 +51,7 @@ EdgeDetection LeftRight(
     .Edges(leftRightOut),
     .complete(complete)
 );
-
+//connecting the up and down edge detector
 EdgeDetection upDown(
     .clk(clk),
     .modeCounter(3'b001), //hardcoding it into the upDown right mode
@@ -58,18 +63,20 @@ EdgeDetection upDown(
     .Edges(upDownOut)
 );
 
+assign OutArray = (upDownOut|leftRightOut); // if it is a edge from either it is an edge
 
-assign leftRightUpDown = (upDownOut|leftRightOut);
+/* To include LP filter add this and uncommnet previous assign
 
-PostDetectionFilter filtering(
-    .clk(clk),
-    .reset(reset),
-    .enb(enb),
-    .In_Array(leftRightUpDown), // uint 8
-    .Out_Array(OutArray)
-);
+assign OutArray_Prefiltered = (upDownOut|leftRightOut);
 
+PostDetectionFilter LPFilter
+          (.clk(clk),
+           .reset(reset),
+           .enb(enb),
+           .In_Array(OutArray_Prefiltered),
+           .Out_Array(OutArray)
+           );
 
 //if need to add a filter can add it in here
-
+*/
 endmodule

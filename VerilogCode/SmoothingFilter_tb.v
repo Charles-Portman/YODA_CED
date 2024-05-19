@@ -1,3 +1,9 @@
+/*
+Author: Thomas Greenwood
+Test bench for the smoothing filter
+
+*/
+
 `include "Smoothing_Filter.v"
 
 module SmoothingFilter_tb();
@@ -18,14 +24,14 @@ Smoothing_Filter DUT(
            );
 initial begin
     clk <= 0;
-    $dumpfile("Smoothingfilter.vcd");
-    $dumpvars(0, SmoothingFilter_tb);
+    $dumpfile("Smoothingfilter.vcd"); // for gtkwave for debugging
+    $dumpvars(0, SmoothingFilter_tb); // for ^
     reset <= 1;// reset all the values
     #2;
     reset <=0;
     enb <= 1;
-    inputArray <=0;
-    for (inputArray = 0; inputArray<5; inputArray = inputArray +1) // counts up to five
+    inputArray <=4;
+    for (inputArray = 4; inputArray<10; inputArray = inputArray +1) // counts up to five
         begin
           #2;
         end 

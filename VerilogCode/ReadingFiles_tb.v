@@ -1,3 +1,5 @@
+//working fine
+
 `include "Smoothing_Filter.v"
 `timescale 1ns/1ns
 module ReadingFiles_tb (
@@ -43,14 +45,17 @@ module ReadingFiles_tb (
       data = 0;
       code = 1;
       cnt <=0;
+      reset = 1;
+      inputArray <=0;
+      #2
     //writing file info
     
 
     // smoothing filter inputs
       reset = 0;
       enb <= 1;
-      inputArray <=0;
       fout = $fopen("SmoothDataOut.txt","w");
+      #10
       while (code) begin
          if(cnt == 150) begin //reset every row
             cnt <= 0;

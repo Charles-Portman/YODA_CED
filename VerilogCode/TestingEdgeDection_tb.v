@@ -1,4 +1,7 @@
-//working fine
+/*
+Author: Thomas Greenwood
+This testbench test the functionality of an edge detector module without a buffer
+*/
 
 `include "EdgeDetection.v"
 `timescale 1ns/1ns
